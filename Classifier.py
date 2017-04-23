@@ -1,27 +1,18 @@
 # coding: utf-8
 
 """
-CS579: Assignment 2
-
-In this assignment, you will build a text classifier to determine whether a
+Built a text classifier to determine whether a
 movie review is expressing positive or negative sentiment. The data come from
 the website IMDB.com.
 
-You'll write code to preprocess the data in different ways (creating different
+Code to preprocess the data in different ways (creating different
 features), then compare the cross-validation accuracy of each approach. Then,
-you'll compute accuracy on a test set and do some analysis of the errors.
+compute accuracy on a test set and do some analysis of the errors.
 
-The main method takes about 40 seconds for me to run on my laptop. Places to
-check for inefficiency include the vectorize function and the
-eval_all_combinations function.
 
-Complete the 14 methods below, indicated by TODO.
-
-As usual, completing one method at a time, and debugging with doctests, should
-help.
 """
 
-# No imports allowed besides these.
+
 from collections import Counter, defaultdict
 from itertools import chain, combinations
 import glob
@@ -39,7 +30,7 @@ import urllib.request
 
 def download_data():
     """ Download and unzip data.
-    DONE ALREADY.
+  
     """
     url = 'https://www.dropbox.com/s/xk4glpk61q3qrg2/imdb.tgz?dl=1'
     urllib.request.urlretrieve(url, 'imdb.tgz')
@@ -52,7 +43,7 @@ def read_data(path):
     """
     Walks all subdirectories of this path and reads all
     the text files and labels.
-    DONE ALREADY.
+   
 
     Params:
       path....path to files
@@ -73,7 +64,7 @@ def read_data(path):
 def tokenize(doc, keep_internal_punct=False):
     """
     Tokenize a string.
-    The string should be converted to lowercase.
+    The string converted to lowercase.
     If keep_internal_punct is False, then return only the alphanumerics (letters, numbers and underscore).
     If keep_internal_punct is True, then also retain punctuation that
     is inside of a word. E.g., in the example below, the token "isn't"
@@ -121,7 +112,7 @@ def token_features(tokens, feats):
     >>> sorted(feats.items())
     [('token=hi', 2), ('token=there', 1)]
     """
-    ###TODO
+    
     
     c = Counter();
     c.update(tokens)
@@ -202,7 +193,7 @@ def lexicon_features(tokens, feats):
     >>> sorted(feats.items())
     [('neg_words', 1), ('pos_words', 2)]
     """
-    ###TODO
+    
     neg=0
     pos=0
     for t in tokens:
@@ -232,7 +223,7 @@ def featurize(tokens, feature_fns):
     >>> feats
     [('neg_words', 0), ('pos_words', 2), ('token=LOVE', 1), ('token=great', 1), ('token=i', 1), ('token=movie', 1), ('token=this', 1)]
     """
-    ###TODO
+    
     feats = defaultdict(lambda:0)
     for f in feature_fns:
         f(tokens,feats)
@@ -273,7 +264,7 @@ def vectorize(tokens_list, feature_fns, min_freq, vocab=None):
     >>> sorted(vocab.items(), key=lambda x: x[1])
     [('token=great', 0), ('token=horrible', 1), ('token=isn', 2), ('token=movie', 3), ('token=t', 4), ('token=this', 5)]
     """
-    ###TODO
+    
     index=0
     features=defaultdict(lambda: 0)
     cDoc=defaultdict(lambda: 0)
@@ -345,7 +336,7 @@ def cross_validation_accuracy(clf, X, labels, k):
       The average testing accuracy of the classifier
       over each fold of cross-validation.
     """
-    ###TODO
+    
     cv = KFold(len(labels), n_folds=k)
     accuracies = []
     for train_ind, test_ind in cv:
@@ -394,7 +385,7 @@ def eval_all_combinations(docs, labels, punct_vals,
 
       This function will take a bit longer to run (~20s for me).
     """
-    ###TODO
+    
     combi_dict=[]
     False_tokens=[]
     True_tokens=[]
@@ -440,7 +431,7 @@ def plot_sorted_accuracies(results):
     in ascending order of accuracy.
     Save to "accuracies.png".
     """
-    ###TODO
+    
     acc=[]
     for r in results:
         acc.append(r['accuracy'])
@@ -468,7 +459,7 @@ def mean_accuracy_per_setting(results):
       A list of (accuracy, setting) tuples, SORTED in
       descending order of accuracy.
     """
-    ###TODO
+    
     punctLabel=set()
     freqLabel=set()
     functLabel=set()
@@ -531,7 +522,7 @@ def fit_best_classifier(docs, labels, best_result):
             training data.
       vocab...The dict from feature name to column index.
     """
-    ###TODO
+    
     tokens=[]
     #print(best_result)
     freq=best_result['min_freq']
@@ -596,9 +587,7 @@ def parse_test_data(best_result, vocab):
     be passed to the vectorize function to ensure the feature
     mapping is consistent from training to testing.
 
-    Note: use read_data function defined above to read the
-    test data.
-
+   
     Params:
       best_result...Element of eval_all_combinations
                     with highest accuracy
@@ -613,7 +602,7 @@ def parse_test_data(best_result, vocab):
                     in the test data. Each row is a document,
                     each column is a feature.
     """
-    ###TODO
+    
     docs, labels = read_data(os.path.join('data', 'test'))
     tokens=[]
     #print(best_result)
